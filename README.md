@@ -1,2 +1,3 @@
 # earth
-Real time view of earth. (Sort of)
+
+![](https://raw.githubusercontent.com/MakkusuOtaku/earth/main/preview.png)
