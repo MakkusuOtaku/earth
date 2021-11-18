@@ -2,7 +2,7 @@ const canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-var earth, moon, iss;
+var earth, clouds, moon, iss;
 var issData;
 
 import * as THREE from "https://cdn.skypack.dev/three@0.134.0";
@@ -32,7 +32,6 @@ function createEarth() {
         loader.load('textures/earth-specular.png', (specular) => {
             material.specularMap = specular;
             material.specular = new THREE.Color('grey');
-            //material.shininess = 50;
 
             loader.load('textures/earth-bumps.png', (bump) => {
                 material.bumpMap = bump;
@@ -43,16 +42,30 @@ function createEarth() {
     });
 }
 
+function createClouds() {
+    loader.load('textures/earth-clouds.png', (texture) => {
+        const geometry = new THREE.SphereGeometry(1.05, 32, 32);
+        const material = new THREE.MeshPhongMaterial({
+            map: texture,
+            transparent: true,
+            opacity: 0.3,
+            side: THREE.DoubleSide
+        });
+        clouds = new THREE.Mesh(geometry, material);
+        earth.add(clouds);
+    });
+}
+
 function createISS() {
     loader.load('textures/iss-sphere.png', (texture) => {
-        const geometry = new THREE.SphereGeometry(1.05, 32, 32);
+        const geometry = new THREE.SphereGeometry(1.1, 32, 32);
         const material = new THREE.MeshPhongMaterial({
             map: texture,
             transparent: true,
             side: THREE.DoubleSide
         });
         iss = new THREE.Mesh(geometry, material);
-        scene.add(iss);
+        earth.add(iss);
     });
 }
 
@@ -66,21 +79,23 @@ async function getISSPosition() {
     setTimeout(getISSPosition, 5000);
 }
 
+async function getSubSolarPoint() {
+    //
+}
+
 createEarth();
+createClouds();
 createISS();
 
 getISSPosition();
 
 setInterval(() => {
-    if (earth) earth.rotation.y += 0.01;
+    if (earth) earth.rotation.y += 0.005;
+    if (clouds) clouds.rotation.y += 0.0005;
 
     if (iss) {
         iss.rotation.z = issData.latitude * Math.PI / 180;
         iss.rotation.y = issData.longitude * Math.PI / 180;
-        
-        // Add earths rotation to the ISS
-        //iss.rotation.x += earth.rotation.x;
-        iss.rotation.y += earth.rotation.y;
     }
     renderer.render(scene, camera);
 }, 1000 / 60);
