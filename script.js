@@ -2,6 +2,28 @@ const canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Resize canvas when window is resized
+window.addEventListener('resize', ()=>{
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(innerWidth, innerHeight );
+});
+
+// Fullscreen when tapped on mobile, or press f
+addEventListener('touchstart', () => {
+    canvas.requestFullscreen();
+});
+
+addEventListener('keydown', (event) => {
+    if (event.key === 'f') {
+        canvas.requestFullscreen();
+    }
+});
+
 var earth, clouds, moon, iss;
 var issData;
 
