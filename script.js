@@ -21,6 +21,8 @@ addEventListener('touchstart', () => {
 addEventListener('keydown', (event) => {
     if (event.key === 'f') {
         canvas.requestFullscreen();
+    } else if (event.key === 'd') {
+        canvas.style.background = "radial-gradient(circle, aqua, darkblue, black";
     }
 });
 

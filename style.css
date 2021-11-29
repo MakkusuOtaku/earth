@@ -1,6 +1,6 @@
 canvas {
     /* Space coloured bg */
-    background: radial-gradient(circle, aqua, darkblue);
+    background: radial-gradient(circle, aqua, darkblue, black);
     position: absolute;
     top: 0;
     left: 0;
